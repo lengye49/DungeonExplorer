@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class Skill  {
+public class Skill
+{
 
     public int Id;
     public string Name;
@@ -19,7 +20,8 @@ public enum SkillType
     PassiveSkill
 }
 
-public enum SkillEffect{
+public enum SkillEffect
+{
     Damage,
     AddDamageRate,
     AddAllDamageRate,

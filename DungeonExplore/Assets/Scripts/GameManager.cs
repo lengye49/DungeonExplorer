@@ -5,15 +5,67 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	
-	void Start () {
+    private float[] t = new float[4];
+    private Role[] roles;
+
+    void Start () {
+        //展示时间测试
         StartCoroutine(GetTime());
+
+        //玩家是否创建账号
+        if (PlayerData._playerInfo.PlayerRoles.Count==0) {
+            Debug.Log("创建新账号....");
+        }
+        else {
+            Debug.Log("已有角色数量 = " + PlayerData._playerInfo.PlayerRoles.Count);
+        }
+
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-       
+
+
+
+    void Update () {
+        //TimeChange(Time.deltaTime);       
     }
+
+    void TimeChange(float deltaT) {
+        for (int i = 0; i < 4; i++)
+        { 
+            t[i] += deltaT;
+            if (roles[i].RoleAction == CharacterAction.Searching) {
+                //改变探索进度条
+                if (t[i] >= roles[i].SearchCD) {
+                    t[i] -= roles[i].SearchCD;
+                    Debug.Log("Role " + i + " Finish SearchCD");
+                }
+            }
+            else if(roles[i].RoleAction == CharacterAction.Digging)
+            {
+                //改变挖掘进度条
+                if (t[i] >= roles[i].DiggingCD)
+                {
+                    t[i] -= roles[i].DiggingCD;
+                    Debug.Log("Role " + i + " Finish DigCD");
+                }
+            }
+            else if(roles[i].RoleAction==CharacterAction.Fighting)
+            {
+                //改变技能进度条
+                if (t[i] >= roles[i].SkillCD)
+                {
+                    t[i] -= roles[i].SkillCD;
+                    Debug.Log("Role " + i + " Finish SkillCD");
+                }
+            }
+            else { Debug.Log("Role " + i + " Has Wrong Action Type" + roles[i].RoleAction); }
+
+        }
+    }
+
+
+
+
 
     IEnumerator GetTime()
     {
@@ -39,4 +91,6 @@ public class GameManager : MonoBehaviour {
         Debug.Log(timeStr);
     }
 }
+
+
 
